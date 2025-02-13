@@ -12,6 +12,22 @@ function prepare_bastion() {
 }
 
 function create_instance() {
-    
+    cd terraform
+    terraform init
+    terraform apply --auto-approve
+}
+
+function update_ip() {
+    terraform output -raw ec2 > ../ansible/hosts
+}
+
+
+function ansible() {
+    cd ../ansible
+    ansible-playbook main.yml
 }
 prepare_bastion
+create_instance
+update_ip
+sleep 20
+ansible
